@@ -23,7 +23,8 @@ namespace SearchEngineScraper.Api
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
+                    // Work around CORS issues related to running on localhost
+                    builder.AllowAnyOrigin()
                         .AllowAnyMethod();
                 });
             });
