@@ -28,9 +28,9 @@
 
     <ItemGroup>
       <None Remove="HtmlResults\efiling+integration.html" />
-      <Content Include="HtmlResults\efiling+integration.html">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      <None Update="HtmlResults\efiling+integration_google.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

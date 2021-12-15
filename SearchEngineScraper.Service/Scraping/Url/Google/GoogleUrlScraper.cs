@@ -11,14 +11,18 @@ namespace SearchEngineScraper.Service.Scraping.Url.Google
     /// <summary>
     /// URL Scraper implementation for Google
     /// </summary>
-    internal class GoogleUrlScraper : IUrlScraper
+    internal class GoogleUrlScraper : IUrlScraper<GoogleUrlScrapeRequest>
     {
         private const int MaxDisplayCount = 100;
         private const string GroupName = "url";
 
         private static readonly Regex _urlRegex =
-            new($@"<div[^>]+?class\s*?=\s*?(?:""yuRUbf""|""DOqJne"")[^>]*?>.*?<a[^>]+?href\s*?=\s*?""(?<{GroupName}>.+?)""",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled, TimeSpan.FromSeconds(15));
+            new
+            (
+                $@"<div[^>]+?class\s*?=\s*?(?:""yuRUbf""|""DOqJne"")[^>]*?>.*?<a[^>]+?href\s*?=\s*?""(?<{GroupName}>.+?)""",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled,
+                TimeSpan.FromSeconds(15)
+            );
 
         private readonly IGoogleClient _googleClient;
 
@@ -27,10 +31,12 @@ namespace SearchEngineScraper.Service.Scraping.Url.Google
             _googleClient = googleClient;
         }
 
-        public async Task<UrlScrapeResultsDto> GetUrlScrapeResults(string search, string url, int resultCount)
+        public async Task<UrlScrapeResultsDto> GetUrlScrapeResults(GoogleUrlScrapeRequest request)
         {
+            var (search, url, resultCount) = request;
             // Pass 0 as the resultStart argument because we want to start with the first result returned
             var results = GetUrlScrapeResults(search, url, resultCount, resultStart: 0);
+
             return new UrlScrapeResultsDto(search, url, resultCount, await results.ToListAsync());
         }
 
@@ -49,19 +55,19 @@ namespace SearchEngineScraper.Service.Scraping.Url.Google
             }
 
             var matchResults = _urlRegex.Matches(htmlResults);
-            
+
             if (matchResults.Count == 0)
             {
                 yield break;
             }
-            
+
             for (var i = 0; i < matchResults.Count; i++)
             {
                 var matchUrl = matchResults[i].Groups[GroupName].Value;
 
                 if (matchUrl.Contains(url, StringComparison.OrdinalIgnoreCase))
                 {
-                    yield return new KeyValuePair<int, string>(i + 1, matchUrl);
+                    yield return new KeyValuePair<int, string>(i + 1 + resultStart, matchUrl);
                 }
             }
 

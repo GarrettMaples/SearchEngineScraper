@@ -14,11 +14,11 @@ namespace SearchEngineScraper.UnitTests
     public class GoogleUrlScraperTests
     {
         [Fact]
-        public async Task GetUrlScrapeResults_InputLink_IsFoundInHtml()
+        public async Task GetUrlScrapeResults_InputLinks_AreFoundInHtml()
         {
-            const int resultCount = 100;
+            const int resultCount = 200;
             const string searchUrl = "www.infotrack.com";
-            const string filename = "./HtmlResults/efiling+integration.html";
+            const string filename = "./HtmlResults/efiling+integration_google.txt";
             var testHtml = await File.ReadAllTextAsync(filename);
 
             var expectResults = new UrlScrapeResultsDto
@@ -29,7 +29,12 @@ namespace SearchEngineScraper.UnitTests
                 new Dictionary<int, string>
                 {
                     { 1, "https://www.infotrack.com/clio/" },
-                    { 2, "https://www.infotrack.com/blog/explained-integrated-efiling-and-continued-innovation/" }
+                    { 2, "https://www.infotrack.com/blog/explained-integrated-efiling-and-continued-innovation/" },
+                    // Duplicated results expected here since we specify a resultCount greater than
+                    // Google max results per page which forces the scraper to 'move to the next page'
+                    // which is duplicated in this test
+                    { 101, "https://www.infotrack.com/clio/" },
+                    { 102, "https://www.infotrack.com/blog/explained-integrated-efiling-and-continued-innovation/" }
                 }
             );
 
@@ -40,7 +45,8 @@ namespace SearchEngineScraper.UnitTests
 
             var googleUrlScraper = new GoogleUrlScraper(stubClient.Object);
 
-            var results = await googleUrlScraper.GetUrlScrapeResults(string.Empty, searchUrl, resultCount);
+            var request = new GoogleUrlScrapeRequest(string.Empty, searchUrl, resultCount);
+            var results = await googleUrlScraper.GetUrlScrapeResults(request);
 
             results.Should().BeEquivalentTo(expectResults);
         }

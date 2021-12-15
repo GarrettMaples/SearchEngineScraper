@@ -8,7 +8,7 @@ namespace SearchEngineScraper.Service
     {
         public static IServiceCollection AddData(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddTransient<IUrlScraper, GoogleUrlScraper>();
+            return serviceCollection.AddTransient<IUrlScraper<GoogleUrlScrapeRequest>, GoogleUrlScraper>();
         }
     }
 }
