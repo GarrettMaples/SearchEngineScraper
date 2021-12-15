@@ -4,13 +4,12 @@ using SearchEngineScraper.Api.Models.Requests;
 using SearchEngineScraper.Api.Models.Results;
 using SearchEngineScraper.Service.Scraping.Url;
 using SearchEngineScraper.Service.Scraping.Url.Google;
-using System;
 using System.Threading.Tasks;
 
 namespace SearchEngineScraper.Api.Controllers
 {
+    [Route("api/google-scrape")]
     [ApiController]
-    [Route("api/google-scraper")]
     public class GoogleScraperController : ControllerBase
     {
         private readonly IUrlScraper<GoogleUrlScrapeRequest> _urlScraper;
@@ -27,13 +26,14 @@ namespace SearchEngineScraper.Api.Controllers
         /// </summary>
         /// <param name="urlScrapeRequestModel">Contains parameters for the Google results URL scrape</param>
         /// <returns>Returns collection of Scrape results that include the index and exact URL found</returns>
-        [HttpGet("/url-search")]
+        [HttpGet("url-scrape")]
         public async Task<ActionResult<UrlScrapeResultsModel>> GetUrlScrapeResults(
             [FromQuery] UrlScrapeRequestModel urlScrapeRequestModel)
         {
-            var request = new GoogleUrlScrapeRequest(urlScrapeRequestModel.Search, urlScrapeRequestModel.Url, urlScrapeRequestModel.ResultCount);
+            var request = new GoogleUrlScrapeRequest(urlScrapeRequestModel.Search, urlScrapeRequestModel.Url,
+                urlScrapeRequestModel.ResultCount);
             var results = await _urlScraper.GetUrlScrapeResults(request);
-
+            
             var modelResults = _mapper.Map<UrlScrapeResultsModel>(results);
             return Ok(modelResults);
         }

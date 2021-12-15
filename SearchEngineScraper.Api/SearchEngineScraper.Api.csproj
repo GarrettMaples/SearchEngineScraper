@@ -12,14 +12,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SearchEngineScraper.Data\SearchEngineScraper.Data.csproj" />
-      <ProjectReference Include="..\SearchEngineScraper.Service\SearchEngineScraper.Service.csproj" />
+        <ProjectReference Include="..\SearchEngineScraper.Data\SearchEngineScraper.Data.csproj" />
+        <ProjectReference Include="..\SearchEngineScraper.Service\SearchEngineScraper.Service.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-      <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
 </Project>

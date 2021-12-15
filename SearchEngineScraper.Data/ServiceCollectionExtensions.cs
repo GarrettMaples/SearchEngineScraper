@@ -2,7 +2,6 @@
 using Refit;
 using SearchEngineScraper.Data.Clients;
 using System;
-using System.Net.Http.Headers;
 
 namespace SearchEngineScraper.Data
 {

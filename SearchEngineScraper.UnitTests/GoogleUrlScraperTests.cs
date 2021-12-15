@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Moq;
 using SearchEngineScraper.Data.Clients;
-using SearchEngineScraper.Service;
 using SearchEngineScraper.Service.Dtos;
 using SearchEngineScraper.Service.Scraping.Url.Google;
 using System.Collections.Generic;

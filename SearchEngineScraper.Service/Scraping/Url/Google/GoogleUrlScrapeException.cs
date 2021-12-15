@@ -7,10 +7,5 @@ namespace SearchEngineScraper.Service.Scraping.Url.Google
         public GoogleUrlScrapeException(string message) : base(message)
         {
         }
-        
-        public GoogleUrlScrapeException(string message, string html) 
-            : base($"{message}{Environment.NewLine}HTML:{Environment.NewLine}{html}")
-        {
-        }
     }
 }

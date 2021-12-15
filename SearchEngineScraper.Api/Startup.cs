@@ -1,18 +1,12 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using SearchEngineScraper.Api.Models.Requests;
 using SearchEngineScraper.Data;
 using SearchEngineScraper.Service;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -25,6 +19,14 @@ namespace SearchEngineScraper.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -50,9 +52,9 @@ namespace SearchEngineScraper.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
