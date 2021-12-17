@@ -2,10 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SearchEngineScraper.Data\SearchEngineScraper.Data.csproj"/>
+        <ProjectReference Include="..\SearchEngineScraper.Data\SearchEngineScraper.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.Linq.Async" Version="5.1.0"/>
+        <PackageReference Include="System.Linq.Async" Version="5.1.0" />
     </ItemGroup>
 
 </Project>
